@@ -4,16 +4,18 @@ import PropTypes from 'prop-types';
 import HeaderWallet from '../components/HeaderWallet';
 import fetchFunction from '../helpersUteis/fetchFunction';
 import { addValuesCurrency } from '../actions/index';
+import Form from '../components/Form';
 
 class Wallet extends React.Component {
   async componentDidMount() {
-    const cadaMoeda = Object.keys(await fetchFunction());
+    const cadaMoeda = Object.keys(await fetchFunction('https://economia.awesomeapi.com.br/json/all'));
     const removeUSDT = cadaMoeda.filter((moedas) => moedas !== 'USDT');
+    const moedas = removeUSDT;
     // const cadaMoedaAtualizado = cadaMoeda;
-    console.log(removeUSDT);
+    console.log(`AQUI ${moedas}`);
 
     const { dispatch } = this.props;
-    dispatch(addValuesCurrency(removeUSDT));
+    dispatch(addValuesCurrency(moedas));
   }
 
   // export function fetchDog() {
@@ -26,7 +28,12 @@ class Wallet extends React.Component {
   //   }
   // }
   render() {
-    return <div><HeaderWallet /></div>;
+    return (
+      <div>
+        <HeaderWallet />
+        <Form />
+      </div>
+    );
   }
 }
 

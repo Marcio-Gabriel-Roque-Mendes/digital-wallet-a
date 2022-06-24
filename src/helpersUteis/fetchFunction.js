@@ -1,5 +1,5 @@
-export default async function fetchFunction() {
-  const getApi = await fetch('https://economia.awesomeapi.com.br/json/all');
+export default async function fetchFunction(stringComUrl) {
+  const getApi = await fetch(stringComUrl);
   const response = await getApi.json();
   return response;
 }
