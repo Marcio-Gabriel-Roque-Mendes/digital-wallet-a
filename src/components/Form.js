@@ -1,6 +1,8 @@
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { addValuesExpenses } from '../actions';
+import fetchFunction from '../helpersUteis/fetchFunction';
 
 class Form extends Component {
   state = {
@@ -9,8 +11,8 @@ class Form extends Component {
     method: 'Dinheiro',
     tag: 'Alimentação',
     description: '',
-    // id: 0,
-    // exchangeRates: {},
+    id: 0,
+    exchangeRates: {},
   };
 
   handleChange = (event) => {
@@ -20,6 +22,22 @@ class Form extends Component {
       [name]: value,
     });
   };
+
+  requisicaoApi = async () => {
+    const cadaMoedaOriginal = (await fetchFunction('https://economia.awesomeapi.com.br/json/all'));
+
+    this.setState({
+      exchangeRates: cadaMoedaOriginal,
+    }, () => {
+      const { dispatch } = this.props;
+      const { id } = this.state;
+      dispatch(addValuesExpenses(this.state));
+      this.setState({
+        id: id + 1,
+        value: 0,
+      });
+    });
+  }
 
   render() {
     const { value, currency, description, method, tag } = this.state;
@@ -99,6 +117,12 @@ class Form extends Component {
             onChange={ this.handleChange }
           />
         </label>
+        <button
+          type="button"
+          onClick={ this.requisicaoApi }
+        >
+          Adicionar despesa
+        </button>
 
       </div>
     );
@@ -107,6 +131,7 @@ class Form extends Component {
 
 Form.propTypes = {
   currencies: PropTypes.arrayOf().isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (globalState) => ({
