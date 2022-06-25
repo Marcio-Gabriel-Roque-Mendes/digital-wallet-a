@@ -5,6 +5,7 @@ import HeaderWallet from '../components/HeaderWallet';
 import fetchFunction from '../helpersUteis/fetchFunction';
 import { addValuesCurrency } from '../actions/index';
 import Form from '../components/Form';
+import Table from '../components/Table';
 
 class Wallet extends React.Component {
   async componentDidMount() {
@@ -32,6 +33,7 @@ class Wallet extends React.Component {
       <div>
         <HeaderWallet />
         <Form />
+        <Table />
       </div>
     );
   }
