@@ -22,12 +22,10 @@ class HeaderWallet extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    email: state.user.email,
-    despesas: state.wallet.expenses,
-  };
-}
+const mapStateToProps = (state) => ({
+  email: state.user.email,
+  despesas: state.wallet.expenses,
+});
 
 HeaderWallet.propTypes = {
   email: PropTypes.string.isRequired,
