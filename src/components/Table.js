@@ -54,7 +54,7 @@ class Table extends Component {
                 {Number(despesa.value).toFixed(2)}
               </td>
               <td>
-                {despesa.exchangeRates[despesa.currency].name[0]}
+                {despesa.exchangeRates[despesa.currency].name.split('/')[0]}
               </td>
               <td>
                 {(parseFloat(despesa.exchangeRates[despesa.currency].ask)).toFixed(2)}
