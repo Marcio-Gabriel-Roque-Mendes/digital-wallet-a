@@ -34,10 +34,20 @@ const wallet = (state = INITIAL_STATE, action) => {
       idToEdit: action.id,
     };
   case SAVE_DESPESAS:
+
+    // const despesaId = state.expenses.find((despesa) => despesa.id === action.id);
+    // despesaId.value = action.value;
+
     return {
       ...state,
       editor: false,
-      // idToEdit: action.id,
+      expenses: [...state.expenses.filter((expense) => action.id !== expense.id),
+        { ...state.expenses.find((despesa) => despesa.id === action.id),
+          value: action.value,
+          currency: action.currency,
+          method: action.method,
+          tag: action.tag,
+          description: action.description }],
     };
   default:
     return state;

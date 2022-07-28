@@ -4,17 +4,19 @@ import PropTypes from 'prop-types';
 import { addValuesExpenses, saveDespesas } from '../actions';
 import fetchFunction from '../helpersUteis/fetchFunction';
 
+const INITIAL_STATE = {
+  value: 0,
+  currency: 'USD',
+  method: 'Dinheiro',
+  tag: 'Alimentação',
+  description: '',
+  id: 0,
+  exchangeRates: {},
+  carregarDados: true,
+};
+
 class Form extends Component {
-  state = {
-    value: 0,
-    currency: 'USD',
-    method: 'Dinheiro',
-    tag: 'Alimentação',
-    description: '',
-    id: 0,
-    exchangeRates: {},
-    carregarDados: true,
-  };
+  state = INITIAL_STATE;
 
   componentDidUpdate() {
     const { editor, expenses, idToEdit } = this.props;
@@ -58,11 +60,21 @@ class Form extends Component {
         value: 0,
       });
     });
+
+    this.setState(INITIAL_STATE);
+  }
+
+  salvarDespesa = () => {
+    const { dispatch } = this.props;
+    const { value, currency, method, tag, description, id } = this.state;
+    dispatch(saveDespesas({ value, currency, method, tag, description, id }));
+
+    this.setState(INITIAL_STATE);
   }
 
   render() {
     const { value, currency, description, method, tag } = this.state;
-    const { currencies, editor, dispatch } = this.props;
+    const { currencies, editor } = this.props;
     return (
       <div>
 
@@ -141,9 +153,9 @@ class Form extends Component {
 
         <button
           type="button"
-          onClick={ editor ? () => dispatch(saveDespesas()) : this.requisicaoApi }
+          onClick={ editor ? this.salvarDespesa : this.requisicaoApi }
         >
-          {editor ? 'Salvar despesa' : 'Adicionar despesa'}
+          {editor ? 'Editar despesa' : 'Adicionar despesa'}
 
         </button>
 

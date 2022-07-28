@@ -30,7 +30,12 @@ export const editDespesas = (id) => ({
   id,
 });
 
-export const saveDespesas = () => ({
+export const saveDespesas = ({ value, currency, method, tag, description, id }) => ({
   type: SAVE_DESPESAS,
-  // id,
+  value,
+  currency,
+  method,
+  tag,
+  description,
+  id,
 });
